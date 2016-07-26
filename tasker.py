@@ -8,9 +8,9 @@ def startInput():
 		s = inp.split()
 		if s[0] == "start":
 			start_task(s[1])
-		elif s[0] == "end":
-			print "Ending task"
-		elif s[0] == "create":
+		elif s[0] == "end" or s[0] == "stop":
+			end_task(s[1])
+		elif s[0] == "create" or s[0] == "make":
 			create_task(s[1])
 		elif s[0] == "exit":
 			print "Bye Bye"
@@ -31,9 +31,7 @@ def start_task(task_name):
 		return
 	task_file = open("tasks/{0}.dat".format(task_name), "r+")
 	task_lines = task_file.readlines()
-	# print task_lines
 	task_lines_num = len(task_lines)
-	# print task_lines_num
 	last_line = task_lines[task_lines_num - 1]
 	last_line_split = last_line.split(';')
 	if len(last_line_split) == 2 and last_line_split[1] == "":
@@ -43,5 +41,26 @@ def start_task(task_name):
 		task_file.write(str(datetime.now())+";")
 		print "Task started"
 		return
+
+def end_task(task_name):
+	if not os.path.isfile("tasks/{0}.dat".format(task_name)):
+		print "Task does not exist"
+		return
+	task_file = open("tasks/{0}.dat".format(task_name), "r+")
+	task_lines = task_file.readlines()
+	task_lines_num = len(task_lines)
+	last_line = task_lines[task_lines_num - 1]
+	last_line_split = last_line.split(';')
+	if len(last_line_split) == 2 and last_line_split[1] != "":
+		print "Task not running"
+		return
+	elif len(last_line_split) == 1:
+		print "Task not running"
+		return
+
+	task_file.write(str(datetime.now())+"\n")
+	print "Task ended"
+	return
+
 
 startInput()
