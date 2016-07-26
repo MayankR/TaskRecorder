@@ -1,0 +1,2 @@
+#Task Time Recorder
+This is a python script made to allow me to time and keep track of various activities I do. It has a simple terminal based interface so it feels more geeky :) Its got simple commands to create, start and stop tasks. All previous times of all tasks are recorded and can be seen. Multiple tasks can also be done at the same time.
