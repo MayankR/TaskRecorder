@@ -7,16 +7,29 @@ def startInput():
 	while True and inp != "exit":
 		inp = raw_input("Next command: ")
 		s = inp.split()
-		if s[0] == "start":
-			start_task(s[1])
-		elif s[0] == "end" or s[0] == "stop":
-			end_task(s[1])
-		elif s[0] == "create" or s[0] == "make":
-			create_task(s[1])
-		elif s[0] == "ls" or s[0] == "list":
-			list_tasks()
-		elif s[0] == "exit":
+		corrected = False
+		if s[0] == "exit":
 			print "Bye Bye"
+		elif len(s)==1:
+			inp_argv = raw_input("Enter task: ")
+			s.append(inp_argv)
+			print s
+		if len(s)>1:	
+			if s[0] == "start":
+				start_task(s[1])
+			elif s[0] == "end" or s[0] == "stop":
+				end_task(s[1])
+			elif s[0] == "create" or s[0] == "make":
+				create_task(s[1])
+			else:
+				error_msg = "Incorrect command. ",
+				if s[0] == "ls" or s[0] == "list":
+					error_msg = "Here,"				
+				print error_msg,
+				print" Below is the list of commands."
+				list_tasks()
+				for task in tasks:
+					print task
 
 def create_task(task_name):
 	if os.path.isfile("tasks/tsk_{0}.dat".format(task_name)):
@@ -67,8 +80,10 @@ def end_task(task_name):
 
 def list_tasks():
 	all_dir = os.listdir("tasks/")
+	tasks = []
 	for f in all_dir:
 		if f[0:4] == "tsk_":
-			print f[4:len(f)-4]
+			tasks.append(f[4:len(f)-4])
+	return tasks
 
 startInput()
